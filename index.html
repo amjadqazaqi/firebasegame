@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>My Game</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Piedra" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg {
+            background-color: black;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .jumbotron {
+            background: rgb(200, 54, 54);
+            /* This is for ie8 and below */
+            background: rgba(200, 54, 54, 0.5);
+        }
+
+        #myscore {
+            font-size: 110px;
+            font-family: 'Monoton', cursive;
+            color: white;
+            border: 3px solid white;
+            padding-top: 50px;
+            padding-bottom: 50px;
+
+        }
+
+        #head1 {
+            font-size: 25px;
+            color: white;
+            font-family: 'Concert One', cursive;
+
+        }
+
+        .transparent {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .panel {
+            background-color: transparent;
+            border: 1px #222;
+        }
+
+        .panel-heading {
+            background-color: yellow;
+            border: 1px #222;
+        }
+
+        img:hover {
+            cursor: pointer;
+            background-color: gray;
+
+
+            width: 70px;
+            height: 70px;
+
+
+        }
+
+        .container {
+            width: 450px;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgba(0,0,0,0.15);">
+
+    <div class="container-fluid" style="text-align: center;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 style="font-size: 90px;font-family: 'Piedra', cursive;">
+                    <span style="color:#FFB13E;">Rock</span>-
+                    <span style="color:#FF5967;">Paper</span>-
+                    <span style="color:#68C060;">Scissors</span>
+                </h1>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container-fluid" style="text-align: center;">
+        <div class="row">
+
+            <div class="col-sm-4">
+                <p id="head1">player1</p>
+                <div id="player1content">
+                    <p>Waiting player 2 login</p>
+                    <img src="myfiles/rock1.png" class="myimages" value="ro" style="width:70px; height:70px;">
+                    <img src="myfiles/paper1.png" class="myimages" value="pa" style="width:70px; height:70px;">
+                    <img src="myfiles/scissors1.png" class="myimages" value="sc" style="width:70px; height:70px;">
+                    <p>wins: 0 lost: 0</p>
+                </div>
+            </div>
+            <div class="col-sm-4" style="margin-top: 25px;">
+                <div id="pgreting">
+                    <input type="text" name="playername" id="pname" value="">
+
+                    <button id="button1">Click Me!!!!</button>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <p id="head1">player2</p>
+                <div id="player2content">
+                    <p>Waiting player 1 login</p>
+                    <img src="myfiles/rock1.png" class="myimages" value="ro" style="width:70px; height:70px;">
+                    <img src="myfiles/paper1.png" class="myimages" value="pa" style="width:70px; height:70px;">
+                    <img src="myfiles/scissors1.png" class="myimages" value="sc" style="width:70px; height:70px;">
+                    <p>wins: 0 lost: 0</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div id="middle-content" </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="panel panel-default" style="margin-top: 10px;">
+                                <div class="panel-heading_custome">
+                                    <div id="test1" class="container" style="width:100% ;height:150px ;background-color:whitesmoke;"></div>
+                                    <input type="text" id="textinputchat" value="a12121212" style="width:100%">
+
+                                    <button id="button2" style="width:100%">SEND</button>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
+
+        </div>
+
+        <script type="text/javascript">
+            var mychattext = "";
+            var jjj = ["1", "2", "3"];
+            var isloggesin = false;
+
+            var playerlist = new Array();
+            var m = 2;
+            var playerturn = 1;
+
+
+            var config = {
+                apiKey: "AIzaSyAnFryF4nhJMDJVm4ynZnbX5kCzLQl3Kcw",
+                authDomain: "mygame-01.firebaseapp.com",
+                databaseURL: "https://mygame-01.firebaseio.com",
+                projectId: "mygame-01",
+                storageBucket: "mygame-01.appspot.com",
+                messagingSenderId: "485176901659"
+            };
+            firebase.initializeApp(config);
+            var database = firebase.database();
+            var connectionsRef = database.ref("/connections");
+            var playerconnected = database.ref("/playernames");
+            var pname = "";
+            console.log(playerlist);
+            var pnames1 = database.ref("playersname");
+            var playersettion = database.ref("settion");
+
+            var turns = database.ref("playerturn");
+
+            $("#button1").on("click", function () {
+
+                pname = $("#pname").val();
+
+
+                isloggesin = true;
+                m = 3;
+                database.ref("chatdata").set({
+                    clickCount: "user ( " + pname + " ) loggedin"
+                });
+
+                database.ref("playerturn").set({
+                    currentturn: playerturn
+                });
+
+
+
+                var connectedRef2 = database.ref(".info/connected");
+                connectedRef2.on("value", function (snap) {
+                    if (snap.val()) {
+
+                        var con2 = pnames1.push(pname);
+
+                        var con3 = playersettion.push("player" + playerlist.length);
+                        // con2.onDisconnect().myfun();
+                        con2.onDisconnect().remove();
+                        con3.onDisconnect().remove();
+
+
+                    }
+                });
+
+
+                console.log(playerlist);
+
+                $("#pgreting").html('<p>hi ( ' + pname + ' ) you are player # ' + (playerlist.length) + '</p>')
+
+
+
+
+
+
+
+
+            });
+
+
+            pnames1.on("child_added", function (snapshot) {
+                if (snapshot.val() == undefined) {
+
+                } else {
+                    playerlist.push(snapshot.val());
+                }
+                console.log(playerlist);
+                $("#head1").text(playerlist.length)
+            }, function (errorObject) {
+                console.log("Errors handled: " + errorObject.code);
+            });
+
+
+
+            pnames1.on("value", function (snapshot) {
+
+                $("#head1").text(playerlist.length)
+                // alert(playerlist.length)
+            }, function (errorObject) {
+                console.log("Errors handled: " + errorObject.code);
+            });
+
+            var addedtext = "";
+            var clickCounter = "";
+            var mmmmm = "";
+
+            $("#button2").on("click", function () {
+                console.log(isloggesin)
+                if (isloggesin) {
+                    clickCounter = $("#textinputchat").val();
+                    m = 0;
+
+                    database.ref("chatdata").set({
+                        clickCount: pname + " :" + clickCounter
+                    });
+                }
+
+            });
+
+
+            database.ref("chatdata").on("value", function (snapshot) {
+
+
+                if (m == 0) {
+
+                    mmmmm = (snapshot.val().clickCount);
+
+                    $("#test1").append('<p style="text-align: left;">' + mmmmm + '</p>');
+
+
+                    var objDiv = document.getElementById("test1");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+
+                    clickCounter = snapshot.val().clickCount;
+                }
+                if (m == 3) {
+
+
+                    mmmmm = (snapshot.val().clickCount);
+
+                    $("#test1").append('<p style="text-align: left;">' + mmmmm + '</p>');
+
+
+                    var objDiv = document.getElementById("test1");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+
+                    clickCounter = snapshot.val().clickCount;
+                }
+
+            }, function (errorObject) {
+
+                console.log("The read failed: " + errorObject.code);
+            });
+
+            var chatref = database.ref("chatdata");
+
+            chatref.on("value", function (snap) {
+
+                if (isloggesin) {
+
+                    chatref.onDisconnect().set({
+                        clickCount: "user ( " + pname + " ) logge off"
+
+
+                    });
+
+                }
+            });
+
+
+            $(".myimages").on("click", function () {
+
+
+                alert($(this).attr("value"));
+
+            });
+
+
+
+
+        </script>
+
+
+
+</body>
+
+</html>
